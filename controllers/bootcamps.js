@@ -145,7 +145,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
-
+// console.log('this is sparta :',req.que)
   // Get lat/lng from geocoder
   const loc = await geocoder.geocode(zipcode);
   console.log(loc)
