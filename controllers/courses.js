@@ -34,7 +34,7 @@ exports.createCourse = asyncHandler(async (req, res, next)=>{
         )
     }
     const course = await Course.create(req.body)
-    res.status(202).json({success: true, data: course})
+    res.status(201).json({success: true, data: course})
 })
 
 
@@ -58,13 +58,14 @@ exports.getCourse = asyncHandler(async (req, res, next)=>{
 // @route   Get /api/v1/courses/:id
 // @access  Private
 exports.updateCourse = asyncHandler(async (req, res, next)=>{
-    const course = await Course.findByIdAndUpdate(req.params.id,req.body, {
-        runValidators: true,
-        new: true
-    })
+    const course = Course.findById(req.params.id)
     if (!course) {
         return next(new ErrorResponse("Course doesn't exist", 404));
     }
+     course = await Course.findByIdAndUpdate(req.params.id,req.body, {
+        runValidators: true,
+        new: true
+    })
     res.status(200).json({success: true,name: 'jiad', data: course})
 })
 
@@ -72,9 +73,10 @@ exports.updateCourse = asyncHandler(async (req, res, next)=>{
 // @route   Get /api/v1/courses/:id
 // @access  Private
 exports.deleteCourse = asyncHandler(async (req, res, next)=>{
-    const course = await Course.findByIdAndDelete(req.params.id)
+    const course = await Course.findById(req.params.id)
     if (!course) {
         return next(new ErrorResponse("Course doesn't exist", 404));
     }
+    await course.remove()
     res.status(200).json({success: true,name: 'jiad', data: {}})
 })
