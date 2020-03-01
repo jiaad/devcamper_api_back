@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false);
 
 
 const CourseSchema = new mongoose.Schema({
@@ -16,7 +17,7 @@ const CourseSchema = new mongoose.Schema({
         required: [true, 'Please add number of weeks']
     },
     tuition: {
-        type: String,
+        type: Number,
         required: [true, 'Please add a tution cost']
     },
     minimumSkill: {
@@ -41,6 +42,7 @@ const CourseSchema = new mongoose.Schema({
 });
 
 CourseSchema.statics.getAverageCost = async function(bootcampId) {
+    console.log(this)
     const obj = await this.aggregate([
       {
         $match: { bootcamp: bootcampId }
@@ -53,6 +55,13 @@ CourseSchema.statics.getAverageCost = async function(bootcampId) {
       }
     ]);
   console.log(obj)
+  try {
+      await this.model('Bootcamp').findByIdAndUpdate(bootcampId, {
+          averageCost: Math.ceil(obj[0].averageCost / 10) * 10
+      })
+  } catch (error) {
+      console.log(err);
+  }
   
   };
   
