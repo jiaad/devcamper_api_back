@@ -107,10 +107,12 @@ const BootcampSchema = new mongoose.Schema({
     default: Date.now
   }
 
-},{
+},
+{
   toJSON: {virtuals: true},
   toObject: {virtuals: true}
-});
+}
+);
 
 // Create Bootcamp slug form the name
 
