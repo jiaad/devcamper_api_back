@@ -1,11 +1,11 @@
-const path      = require('path')
-const express   = require('express')
-const dotenv    = require('dotenv')
-const logger    = require('./middleware/logger')
-const morgan    = require('morgan')
-const color     = require('colors')
-const fileupload = require('express-fileupload')
-const cors = require("cors");
+const path            = require('path')
+const express         = require('express')
+const dotenv          = require('dotenv')
+const logger          = require('./middleware/logger')
+const morgan          = require('morgan')
+const color           = require('colors')
+const fileupload      = require('express-fileupload')
+const cors            = require("cors");
 const errorHandler    = require('./middleware/error')
 
 //LOAD ENV VARS
@@ -32,8 +32,9 @@ if(process.env.NODE_ENV == 'development'){
 }
 
 // ROUTES FILES
-const bootcamps = require('./routes/bootcamps')
-const courses = require('./routes/courses')
+const auth        = require('./routes/auth')
+const bootcamps   = require('./routes/bootcamps')
+const courses     = require('./routes/courses')
 
 // File uploading
 app.use(fileupload())
@@ -42,6 +43,7 @@ app.use(fileupload())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // MOUNT ROUTERS
+app.use('/api/v1/auth', auth)
 app.use('/api/v1/bootcamps/', bootcamps);
 app.use('/api/v1/courses', courses);
 
