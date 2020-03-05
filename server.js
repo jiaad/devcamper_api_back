@@ -5,6 +5,7 @@ const logger          = require('./middleware/logger')
 const morgan          = require('morgan')
 const color           = require('colors')
 const fileupload      = require('express-fileupload')
+const cookieParser    = require('cookie-parser')
 const cors            = require("cors");
 const errorHandler    = require('./middleware/error')
 
@@ -24,6 +25,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 // Body Parser
 app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser())
+
 
 //app.use(logger)
 // Dev loggin middleware
