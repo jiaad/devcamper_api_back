@@ -73,3 +73,24 @@ const sendTokenResponse = (user, statusCode, res) => {
         .cookie('token', token, options).json({success: true, token})
 }
 
+
+
+// @desc        Forgot password
+// @route       POST /api/v1/auth/forgotpassword
+// @access      public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({email: req.body.email})
+
+    if (!user) {
+        return next(new ErrorResponse('There is no user with that email', 404))
+    }
+    const resetToken = user.getResetPasswordToken()
+
+    console.log("this is reset token: ", resetToken);
+    await user.save({validateBeforeSave: false})
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
+
