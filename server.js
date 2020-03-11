@@ -40,7 +40,8 @@ if(process.env.NODE_ENV == 'development'){
 const auth        = require('./routes/auth')
 const bootcamps   = require('./routes/bootcamps')
 const courses     = require('./routes/courses')
-
+const users       = require('./routes/users')
+const jiad = require('./routes/users')
 // File uploading
 app.use(fileupload())
 
@@ -48,12 +49,20 @@ app.use(fileupload())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // MOUNT ROUTERS
-app.use('/api/v1/auth', auth)
+app.use('/api/v1/auth/', auth)
 app.use('/api/v1/bootcamps/', bootcamps);
-app.use('/api/v1/courses', courses);
+app.use('/api/v1/courses/', courses);
+app.use('/api/v1/users/', users);
 
 // ERROR HANLDER : MUST BE AFTER MOUNT ROUTERS
 app.use(errorHandler);
+
+var pathfinderUI = require('pathfinder-ui')
+
+app.use('/pathfinder', function(req, res, next){
+	pathfinderUI(app)
+	next()
+}, pathfinderUI.router)
 
 // SERVER INITIALIZATION
 const server = app.listen(PORT,
