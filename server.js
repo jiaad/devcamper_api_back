@@ -8,7 +8,7 @@ const fileupload      = require('express-fileupload')
 const cookieParser    = require('cookie-parser')
 const cors            = require("cors");
 const errorHandler    = require('./middleware/error')
-
+var pathfinderUI      = require('pathfinder-ui')
 //LOAD ENV VARS
 // IMPORTANT: toujours mettre le ENV au dessus des import qui ont des ENV
 // On peut ramener en haut mais faut
@@ -40,8 +40,7 @@ if(process.env.NODE_ENV == 'development'){
 const auth        = require('./routes/auth')
 const bootcamps   = require('./routes/bootcamps')
 const courses     = require('./routes/courses')
-const users       = require('./routes/users')
-const jiad = require('./routes/users')
+const review      = require('./routes/reviews')
 // File uploading
 app.use(fileupload())
 
@@ -49,15 +48,12 @@ app.use(fileupload())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // MOUNT ROUTERS
-app.use('/api/v1/auth/', auth)
+app.use('/api/v1/auth', auth)
 app.use('/api/v1/bootcamps/', bootcamps);
 app.use('/api/v1/courses/', courses);
-app.use('/api/v1/users/', users);
-
+app.use('/api/v1/reviews/', review)
 // ERROR HANLDER : MUST BE AFTER MOUNT ROUTERS
 app.use(errorHandler);
-
-var pathfinderUI = require('pathfinder-ui')
 
 app.use('/pathfinder', function(req, res, next){
 	pathfinderUI(app)
