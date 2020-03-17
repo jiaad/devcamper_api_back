@@ -16,7 +16,7 @@ exports.getReviews = asyncHandler(async (req, res, next)=>{
             data: reviews
         })
     }else{
-        res.status(200).json({found: "sorry reviews not found" ,data: res.advancedResults})
+        res.status(200).json(res.advancedResults)
     }
 })
 

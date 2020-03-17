@@ -41,6 +41,7 @@ const auth        = require('./routes/auth')
 const bootcamps   = require('./routes/bootcamps')
 const courses     = require('./routes/courses')
 const review      = require('./routes/reviews')
+const user        = require('./routes/users')
 // File uploading
 app.use(fileupload())
 
@@ -52,6 +53,7 @@ app.use('/api/v1/auth', auth)
 app.use('/api/v1/bootcamps/', bootcamps);
 app.use('/api/v1/courses/', courses);
 app.use('/api/v1/reviews/', review)
+app.use('/api/v1/users/', user)
 // ERROR HANLDER : MUST BE AFTER MOUNT ROUTERS
 app.use(errorHandler);
 
