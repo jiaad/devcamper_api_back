@@ -11,11 +11,11 @@ const mongoSanitize   = require('express-mongo-sanitize');
 const helmet          = require('helmet')
 const rateLimit       = require("express-rate-limit");
 const hpp             = require("hpp");
-
-var xss = require('xss-clean')
+const xss             = require('xss-clean')
 
 const errorHandler    = require('./middleware/error')
 const logger          = require('./middleware/logger')
+
 //LOAD ENV VARS
 // IMPORTANT: toujours mettre le ENV au dessus des import qui ont des ENV
 // On peut ramener en haut mais faut
