@@ -18,6 +18,8 @@ Router
     .route('/forgotpassword')
     .post(forgotPassword)
 
+    
+Router.route('/logout').get(logout)
 Router.route('/me').get(protect,getMe)
 Router.put('/updatedetails', protect, updateDetails)
 Router.put('/updatepassword', protect, updatePassword)
