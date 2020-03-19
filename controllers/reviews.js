@@ -56,3 +56,49 @@ exports.addReview = asyncHandler(async (req, res, next)=>{
 
     res.status(200).json({success: true, data: review})
 })
+
+// @desc    Update review
+// @Routes  PUT api/v1/bootcamps/reviews/:id
+// @access  Private
+exports.updateReview = asyncHandler(async (req, res, next) => {
+    let review   = await Review.findById(req.params.id)
+    if (!review) {
+        return next(
+          new  ErrorResponse('The review with id: ' + req.params.id + "doesn't exists", 404 )
+        )
+    }
+    // Make sure review belongs to user or user is admin
+    if (review.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+                new  ErrorResponse( 'Not authorized to update', 401 )
+               )   
+    }
+     review = await Review.findByIdAndUpdate(req.params.id, req.body, {
+         new: true, 
+         runValidators: true
+        })
+        await review.save()
+    res.status(200).json({success: true, data: review})
+})
+
+
+// @desc    Delete review
+// @Routes  DELETE api/v1/bootcamps/reviews/:id
+// @access  Private
+exports.deleteReview = asyncHandler(async (req, res, next) => {
+    let review   = await Review.findById(req.params.id)
+    if (!review) {
+        return next(
+          new  ErrorResponse( 'The review with id: ' + req.params.id + "doesn't exists", 404 )
+        )
+    }
+
+    // Make sure review belongs to user or user is admin
+    if (review.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+            new  ErrorResponse( 'Not authorized to delete', 401 )
+          )
+    }
+     await review.remove()
+    res.status(200).json({success: true, data: {}})
+})
