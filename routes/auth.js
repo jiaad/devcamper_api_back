@@ -2,7 +2,7 @@ const express = require('express');
 const {register, login, 
        getMe, forgotPassword, 
        resetPassword, updateDetails, 
-       updatePassword} = require('./../controllers/auth');
+       updatePassword, logout} = require('./../controllers/auth');
 
 const Router = express.Router();
 const {protect} = require('./../middleware/auth')

@@ -8,7 +8,9 @@ const fileupload      = require('express-fileupload')
 const cookieParser    = require('cookie-parser')
 const cors            = require("cors");
 const errorHandler    = require('./middleware/error')
-var pathfinderUI      = require('pathfinder-ui')
+const pathfinderUI    = require('pathfinder-ui')
+const mongoSanitize   = require('express-mongo-sanitize');
+
 //LOAD ENV VARS
 // IMPORTANT: toujours mettre le ENV au dessus des import qui ont des ENV
 // On peut ramener en haut mais faut
@@ -42,8 +44,12 @@ const bootcamps   = require('./routes/bootcamps')
 const courses     = require('./routes/courses')
 const review      = require('./routes/reviews')
 const user        = require('./routes/users')
+
 // File uploading
 app.use(fileupload())
+
+// Sanitize DATA
+app.use(mongoSanitize())
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
