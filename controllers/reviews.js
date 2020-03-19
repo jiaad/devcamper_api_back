@@ -73,7 +73,11 @@ exports.updateReview = asyncHandler(async (req, res, next) => {
                 new  ErrorResponse( 'Not authorized to update', 401 )
                )   
     }
-     review = await Review.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
+     review = await Review.findByIdAndUpdate(req.params.id, req.body, {
+         new: true, 
+         runValidators: true
+        })
+        await review.save()
     res.status(200).json({success: true, data: review})
 })
 
@@ -95,6 +99,6 @@ exports.deleteReview = asyncHandler(async (req, res, next) => {
             new  ErrorResponse( 'Not authorized to delete', 401 )
           )
     }
-     review = await Review.findByIdAndDelete(req.params.id)
+     await review.remove()
     res.status(200).json({success: true, data: {}})
 })
