@@ -16,7 +16,7 @@ error.message = err.message
 
   // MONGOOSE BAD OBJECT
   if (err.name === 'CastError') {
-    const message = `Ressource not found`
+    const message = `Ressource not found with id of ${err.value}`
     error = new ErrorResponse(message, 404);
   }
 
