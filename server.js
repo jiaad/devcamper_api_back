@@ -86,6 +86,8 @@ app.use('/api/v1/users/', user)
 // ERROR HANLDER : MUST BE AFTER MOUNT ROUTERS
 app.use(errorHandler);
 
+// app.get('/', (req, res) => res.render('./index/index'))
+
 app.use('/pathfinder', function(req, res, next){
 	pathfinderUI(app)
 	next()
