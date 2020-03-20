@@ -5,11 +5,16 @@ const Bootcamp = require('./../models/Bootcamp')
 
 // @desc    Get courses
 // @route   Get /api/v1/courses
-// @route   Get /api/v1/bootcamp/:bootcampId/courses
+// @route   Get /api/v1/bootcamps/:bootcampId/courses
 // @access  Public
 exports.getCourses = asyncHandler(async (req, res, next)=>{
 
     if (req.params.bootcampId) {
+        const bootcamp = await Bootcamp.findById(req.params.bootcampId)
+        if (!bootcamp) {
+            return next(new ErrorResponse(`Bootcamp doesn't exits`))
+        }
+        
         const courses = await Course.find({bootcamp: req.params.bootcampId})
         res.status(200).json({
             success: true,
@@ -34,6 +39,7 @@ exports.createCourse = asyncHandler(async (req, res, next)=>{
     req.body.bootcamp = req.params.bootcampId;
     req.body.user = req.user.id;
     const bootcamp = await Bootcamp.findById(req.params.bootcampId);
+
     if (!bootcamp) {
         return next(
             new ErrorResponse("No bootcamp with id of " + req.params.bootcampId , 404)
